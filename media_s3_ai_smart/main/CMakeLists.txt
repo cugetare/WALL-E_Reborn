@@ -6,10 +6,5 @@ idf_component_register(
         "media_uart.c"
     INCLUDE_DIRS "."
     REQUIRES
-        esp_driver_gpio
         esp_driver_uart
-        esp_driver_sdspi
-        esp_timer
-        fatfs
-        sdmmc
 )
