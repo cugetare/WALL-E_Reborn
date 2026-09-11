@@ -1,0 +1,35 @@
+menu "WALL-E media board"
+
+config MEDIA_UART_TX
+    int "UART TX pin to motion S3"
+    default 17
+
+config MEDIA_UART_RX
+    int "UART RX pin from motion S3"
+    default 18
+
+config MEDIA_SD_ENABLE
+    bool "Enable microSD mount"
+    default n
+
+config MEDIA_SD_MOSI
+    int "microSD SPI MOSI pin"
+    default 11
+    depends on MEDIA_SD_ENABLE
+
+config MEDIA_SD_MISO
+    int "microSD SPI MISO pin"
+    default 13
+    depends on MEDIA_SD_ENABLE
+
+config MEDIA_SD_CLK
+    int "microSD SPI CLK pin"
+    default 12
+    depends on MEDIA_SD_ENABLE
+
+config MEDIA_SD_CS
+    int "microSD SPI CS pin"
+    default 10
+    depends on MEDIA_SD_ENABLE
+
+endmenu

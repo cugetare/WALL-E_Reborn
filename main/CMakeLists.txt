@@ -1,0 +1,37 @@
+idf_component_register(
+    SRCS
+        "app_main.c"
+        "safety.c"
+        "choreography.c"
+        "automation.c"
+        "calibration.c"
+        "command_protocol.c"
+        "display_model.c"
+        "hardware.c"
+        "media_link.c"
+        "ota_policy.c"
+        "ota_update.c"
+        "panel_io_model.c"
+        "profile_catalog.c"
+        "servo_bus.c"
+        "status_led.c"
+        "walle_core.c"
+        "web_server.c"
+        "wifi_manager.c"
+    INCLUDE_DIRS "."
+    EMBED_FILES "web/index.html" "web/app.js" "web/style.css"
+    REQUIRES
+        esp_adc
+        app_update
+        esp_app_format
+        esp_event
+        esp_http_server
+        esp_lcd
+        esp_driver_rmt
+        esp_netif
+        esp_timer
+        esp_wifi
+        json
+        driver
+        nvs_flash
+)

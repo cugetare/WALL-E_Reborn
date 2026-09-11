@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WALL-E Reborn · Mission control</title><link rel="stylesheet" href="/style.css"><script defer src="/app.js"></script></head>
+<body>
+<header><div><div class="eyebrow">WALL-E REBORN</div><h1>Mission control<span id="connection" class="badge">Connecting</span></h1></div>
+<button id="stop" class="danger">STOP ALL</button></header>
+<div class="statusbar"><span id="mode">Service</span><span id="network">Network unavailable</span><span id="battery">Battery not verified</span><span id="media">Media offline</span></div>
+<main>
+<section id="pairing" class="card"><h2>Connect this browser</h2><p>The device key is printed on USB serial at startup. Commands and settings require it. Use only a trusted local network.</p>
+<div class="row"><label>Device key<input id="devicekey" type="password" autocomplete="off" spellcheck="false"></label><button id="connect" class="primary">Connect</button></div></section>
+<div id="notice" role="status" aria-live="polite">Loading robot status…</div>
+<nav role="tablist" aria-label="Robot sections">
+<button role="tab" id="tab-control" aria-controls="control" aria-selected="false">Control</button>
+<button role="tab" id="tab-profiles" aria-controls="profiles" aria-selected="false">Profiles &amp; automations</button>
+<button role="tab" id="tab-files" aria-controls="files" aria-selected="false">Files</button>
+<button role="tab" id="tab-commissioning" aria-controls="commissioning" aria-selected="true">Commissioning &amp; calibration</button>
+<button role="tab" id="tab-settings" aria-controls="settings" aria-selected="false">Settings</button>
+</nav>
+<section role="tabpanel" id="control" aria-labelledby="tab-control" hidden>
+<div class="sectionhead"><div><div class="eyebrow">LIVE OPERATION</div><h2>Bring WALL-E to life</h2><p>Verify the bus, complete calibration and connect the battery before enabling Play.</p></div><button id="playmode">Select Play mode</button></div>
+<div class="row"><button id="armplay" class="primary">Rearm Play</button><span id="armstatus">Motion locked</span></div>
+<div class="columns"><section class="card"><h3>Tracks</h3><p>Hold a slider to drive. Releasing it stops the tracks.</p>
+<label>Throttle <output id="throttlevalue">0</output><input data-motion id="throttle" type="range" min="-100" max="100" value="0"></label>
+<label>Steering <output id="steeringvalue">0</output><input data-motion id="steering" type="range" min="-100" max="100" value="0"></label></section>
+<section class="card"><h3>Controller</h3><p id="gamepadstatus">Connect a controller to this computer or phone, then press a button.</p>
+<label><input id="usegamepad" type="checkbox"> Use browser controller (hold LB to drive)</label><p class="hint">The browser forwards reports to WALL-E. Direct Bluetooth pairing to the robot is not included in this build. Some browsers require HTTPS for the Gamepad API.</p></section></div>
+<section class="card"><h3>Articulation</h3><div id="jointcontrols" class="jointgrid"></div></section>
+</section>
+<section role="tabpanel" id="commissioning" aria-labelledby="tab-commissioning">
+<div class="sectionhead"><div><div class="eyebrow">ASSEMBLY WORKSPACE</div><h2>One axis at a time</h2><p>Start with identification. Fit the horns after explicit centering, then capture safe movement limits.</p></div><button id="service">Enter service mode</button></div>
+<ol class="steps"><li>Identify &amp; assign</li><li>Center &amp; assemble</li><li>Calibrate &amp; verify</li></ol>
+<section class="card"><div class="sectionhead"><h3>1. Identify your servos</h3><button id="scanservos">Scan IDs 1–253</button></div>
+<p class="warning">Connect only one new factory-ID 1 servo at a time. STOP before scanning or changing IDs. Disconnect servo power before changing the harness.</p>
+<p id="scanstatus">Not scanned this boot</p><div class="fields"><label>Detected ID<select id="sourceid"></select></label><label>New ID<input id="targetid" type="number" min="2" max="253" value="2"></label><label>Movement<select id="assignjoint"></select></label></div>
+<button id="assign">Assign ID &amp; movement</button>
+<div class="tablewrap"><table><thead><tr><th>Movement</th><th>ID</th><th>Bus</th><th>Calibration</th></tr></thead><tbody id="axes"></tbody></table></div></section>
+<section class="card"><div class="sectionhead"><h3>2. Center &amp; calibrate</h3><button id="armservice" class="primary">Rearm service</button></div>
+<p>Service motion is available on assigned axes for assembly. Saving calibration requires all nine assigned servos present and no ID 1.</p>
+<div class="fields"><label>Movement<select id="caljoint"></select></label><label>Measured position<output id="actual">Not read</output></label><label>Load (0.1%, not kg)<output id="load">Not read</output></label></div>
+<div class="row"><button id="center" data-service-motion>Center at 512</button><button id="readfeedback">Read feedback</button></div>
+<label>Target raw position<input id="raw" type="number" min="0" max="1023" value="512"></label>
+<div class="row"><button data-jog="-10" data-service-motion>−10</button><button data-jog="-1" data-service-motion>−1</button><button id="move" data-service-motion>Move to target</button><button data-jog="1" data-service-motion>+1</button><button data-jog="10" data-service-motion>+10</button></div>
+<p id="draftstatus" class="hint">Draft values are not overwritten by status refresh.</p>
+<div class="fields"><label>MIN<input id="minimum" type="number" min="0" max="1023"></label><label>REST<input id="rest" type="number" min="0" max="1023"></label><label>MAX<input id="maximum" type="number" min="0" max="1023"></label></div>
+<label><input id="reverse" type="checkbox"> Reverse logical direction</label>
+<div class="row"><button data-capture="minimum">Capture measured MIN</button><button data-capture="rest">Capture measured REST</button><button data-capture="maximum">Capture measured MAX</button></div>
+<div class="row"><button data-test="minimum" data-service-motion>Test MIN</button><button data-test="rest" data-service-motion>Test REST</button><button data-test="maximum" data-service-motion>Test MAX</button><button id="sweep" data-service-motion>Test MIN → MAX</button></div>
+<div class="row"><button id="savecal" class="primary">Save this calibration</button><button id="finishcal">Complete calibration</button></div></section>
+</section>
+<section role="tabpanel" id="profiles" aria-labelledby="tab-profiles" hidden>
+<div class="sectionhead"><div><div class="eyebrow">MOVEMENT LIBRARY</div><h2>Choreographies &amp; automations</h2><p>Validated profiles live on the media SD. A transfer succeeds only after the media board confirms its commit.</p></div></div>
+<div class="columns"><section class="card"><h3>Upload a profile</h3><label>Profile ID<input id="profileid" maxlength="31" placeholder="hello_eve"></label><label>Display name<input id="profilename" maxlength="47" placeholder="Hello EVE"></label>
+<label>Choreography JSON (maximum 64 KiB)<input id="profilefile" type="file" accept=".json,.walle"></label><button id="uploadprofile" class="primary">Validate &amp; upload to SD</button><progress id="profileprogress" max="100" value="0"></progress></section>
+<section class="card"><h3>Saved profiles</h3><div id="profilelist">No profiles loaded.</div></section></div>
+<section class="card"><h3>Controller automation</h3><input id="automationid" type="hidden" value="1">
+<div class="fields"><label>Name<input id="automationname" maxlength="31" placeholder="Both triggers"></label><label>Profile<select id="automationprofile"></select></label></div>
+<fieldset><legend>Required controller buttons</legend><div id="controllerbuttons" class="buttonchoices"></div></fieldset>
+<div class="fields"><label>Left trigger minimum<input id="lt" type="number" min="0" max="1000" value="920"></label><label>Right trigger minimum<input id="rt" type="number" min="0" max="1000" value="920"></label><label>Hold (ms)<input id="hold" type="number" min="0" max="5000" value="600"></label><label>Cooldown (ms)<input id="cooldown" type="number" min="0" max="60000" value="1000"></label></div>
+<label><input id="neutral" type="checkbox" checked> Require neutral sticks</label><label><input id="enabled" type="checkbox" checked> Enabled</label>
+<div class="row"><button id="learn">Capture held controller buttons</button><button id="saveautomation" class="primary">Save automation</button><button id="newautomation">New automation</button></div><div id="automationlist"></div></section>
+</section>
+<section role="tabpanel" id="files" aria-labelledby="tab-files" hidden>
+<div class="sectionhead"><div><div class="eyebrow">MEDIA SD</div><h2>Files on S3 AI Smart</h2><p>The main S3 keeps the browser and safety interlocks. The media S3 exposes controlled SD folders over UART.</p></div><button id="refreshfiles">Refresh</button></div>
+<div class="columns"><section class="card"><h3>Browse</h3><div class="fields"><label>Folder<select id="filefolder"><option value="sounds">sounds</option><option value="profiles">profiles</option><option value="recordings">recordings</option><option value="firmware">firmware</option><option value="tmp">tmp</option></select></label><label>Current path<input id="filepath" value="sounds" maxlength="95"></label></div>
+<p id="filestatus" role="status">Choose a folder and refresh.</p><div id="filelist">No SD listing loaded.</div></section>
+<section class="card"><h3>Upload to SD</h3><p class="hint">Use sounds for WAV assets, profiles for choreography packages, recordings for captured audio exports and firmware for staged .bin files.</p>
+<label>Destination path<input id="uploadpath" maxlength="95" placeholder="sounds/walle_hello.wav"></label><label>File<input id="mediafile" type="file"></label><button id="uploadmediafile" class="primary">Upload to media SD</button><progress id="mediaprogress" value="0" max="100"></progress></section></div>
+</section>
+<section role="tabpanel" id="settings" aria-labelledby="tab-settings" hidden>
+<div class="sectionhead"><div><div class="eyebrow">SYSTEM SETTINGS</div><h2>Connection &amp; maintenance</h2><p>Network scans, updates and configuration changes require a stopped robot.</p></div></div>
+<div class="columns"><section class="card"><h3>Wi-Fi</h3><p id="wifistatus">Loading…</p><button id="scanwifi">Scan available networks</button>
+<label>Available network<select id="ssidselect"><option value="">Scan first or enter a hidden network below</option></select></label>
+<label>Network name<input id="ssid" maxlength="32" autocomplete="off"></label><label>Password<input id="password" type="password" maxlength="63" autocomplete="new-password"></label>
+<div class="row"><button id="savewifi" class="primary">Save &amp; connect</button><button id="forgetwifi">Forget network</button></div><p id="wifiresult" role="status"></p></section>
+<section class="card"><h3>Firmware</h3><p id="firmwarestatus">Loading…</p><label>Signed WALL-E firmware<input id="firmware" type="file" accept=".bin"></label>
+<button id="uploadfirmware" class="primary">Install &amp; restart</button><progress id="otaprogress" value="0" max="100"></progress><p id="otaresult" role="status"></p><p class="hint">A new image must pass a 30-second startup health window. Calibration and Wi-Fi settings are preserved.</p></section></div>
+<section class="card"><h3>Hardware baseline</h3><p>ESP32-S3 N32R16V · 8 × SC09 + 1 × SC15 · brushed tracks · 3S battery · SPI LCD · UART media.</p><p class="warning">Battery ADC uses 100k / 33k plus 100 nF at the ADC pin. Do not connect the pack directly to any logic or servo rail. An independent actuator power cutoff is still required.</p></section>
+<section class="card"><h3>Calibration maintenance</h3><button id="exportcal">Export calibration backup</button><label>Restore backup<input id="importfile" type="file" accept=".json"></label><button id="importcal">Validate &amp; restore backup</button><button id="resetcal" class="danger subtle">Reset assignments &amp; calibration</button></section>
+</section>
+<footer>Local control · No cloud dependency · Physical safety cutoff remains independent</footer>
+</main></body></html>

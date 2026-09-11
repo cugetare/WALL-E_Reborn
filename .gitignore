@@ -1,0 +1,25 @@
+# ESP-IDF build outputs
+build*/
+tests/target/build/
+artifacts/
+
+# Secrets
+secure_boot_signing_key.pem
+
+# ESP-IDF generated/backup
+sdkconfig.old
+
+# IDE/local
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db

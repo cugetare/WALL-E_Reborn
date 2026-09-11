@@ -1,0 +1,109 @@
+menu "WALL-E Reborn"
+
+config WALLE_AP_SSID
+    string "Fallback access-point name"
+    default "WALL-E-Reborn"
+
+config WALLE_AP_PASSWORD
+    string "Fallback access-point password"
+    default "walle-reborn"
+
+config WALLE_STATUS_LED_GPIO
+    int "Onboard WS2812 status LED pin"
+    default 38
+
+config WALLE_SERVO_UART_TX
+    int "Serial-servo UART TX pin"
+    default 17
+
+config WALLE_SERVO_UART_RX
+    int "Serial-servo UART RX pin"
+    default 18
+
+config WALLE_MEDIA_UART_TX
+    int "ESP32-S3 AI Smart media UART TX pin"
+    default 14
+
+config WALLE_MEDIA_UART_RX
+    int "ESP32-S3 AI Smart media UART RX pin"
+    default 13
+
+config WALLE_LCD_SPI_SCLK
+    int "ST7789 SPI clock pin"
+    default 8
+
+config WALLE_LCD_SPI_MOSI
+    int "ST7789 SPI MOSI/DIN pin"
+    default 9
+
+config WALLE_LCD_SPI_CS
+    int "ST7789 chip-select pin"
+    default 15
+
+config WALLE_LCD_DC
+    int "ST7789 data/command pin"
+    default 41
+
+config WALLE_LCD_RST
+    int "ST7789 reset pin"
+    default 42
+
+config WALLE_LCD_BACKLIGHT
+    int "ST7789 backlight pin"
+    default 2
+
+config WALLE_BUTTON_ENGINEERING
+    int "Engineering-mode button pin"
+    default 4
+
+config WALLE_LED_ENGINEERING
+    int "Engineering LED pin"
+    default 5
+
+config WALLE_BUTTON_STOP
+    int "STOP button pin"
+    default 6
+
+config WALLE_LED_SOLAR
+    int "SOLAR power-alive LED pin"
+    default 21
+
+config WALLE_BATTERY_ADC_CHANNEL
+    int "ADC1 channel number for battery divider"
+    range 0 9
+    default 0
+
+config WALLE_BATTERY_DIVIDER_RATIO_MILLI
+    int "Battery divider ratio x1000 (Vadc/Vbattery)"
+    default 248
+
+config WALLE_BATTERY_CELLS
+    int "Battery cell count"
+    range 3 3
+    default 3
+
+config WALLE_MOTOR_LEFT_PWM
+    int "Left motor PWM/ESC pin"
+    default 10
+
+config WALLE_MOTOR_LEFT_IN1
+    int "Left brushed motor IN1"
+    default 11
+
+config WALLE_MOTOR_LEFT_IN2
+    int "Left brushed motor IN2"
+    default 12
+
+config WALLE_MOTOR_RIGHT_PWM
+    int "Right motor PWM/ESC pin"
+    default 7
+
+config WALLE_MOTOR_RIGHT_IN1
+    int "Right brushed motor IN1"
+    default 39
+
+config WALLE_MOTOR_RIGHT_IN2
+    int "Right brushed motor IN2"
+    default 40
+
+endmenu
